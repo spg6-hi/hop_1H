@@ -35,7 +35,7 @@
                           </rowConstraints>
                            <children>
                               <Label alignment="CENTER_RIGHT" text="Name: " />
-                              <Button mnemonicParsing="false" text="Search" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#doSomething" text="Search" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                               <Label alignment="CENTER_RIGHT" text="Location: " GridPane.rowIndex="1" />
                               <Label alignment="CENTER_RIGHT" text="Etc... " GridPane.rowIndex="2" />
                               <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
