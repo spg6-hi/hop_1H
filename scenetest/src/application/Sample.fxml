@@ -39,13 +39,13 @@
                               <Label alignment="CENTER_RIGHT" text="Location: " GridPane.rowIndex="1" />
                               <Label alignment="CENTER_RIGHT" text="Etc... " GridPane.rowIndex="2" />
                               <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <TextField GridPane.columnIndex="1" />
+                              <TextField fx:id="Nametxt" GridPane.columnIndex="1" />
                               <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                      </children>
                   </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="798.0" />
+                <AnchorPane fx:id="ResultPane" minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="798.0" />
               </items>
             </SplitPane>
             <MenuBar layoutX="14.0" layoutY="7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
