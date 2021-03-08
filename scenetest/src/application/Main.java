@@ -11,14 +11,11 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader();
-			BorderPane root = (BorderPane)fxmlLoader.load(getClass().getResource("Sample.fxml").openStream());
+			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
 			Scene scene = new Scene(root,800,600);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			SampleController controller = (SampleController) fxmlLoader.getController();
-			controller.giveInfo(scene);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
