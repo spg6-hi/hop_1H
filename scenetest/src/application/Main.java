@@ -1,5 +1,5 @@
 package application;
-//gvg8	rrs10
+//gvg8	rrs10  bog24
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
