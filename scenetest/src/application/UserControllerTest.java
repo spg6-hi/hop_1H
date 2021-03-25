@@ -36,4 +36,5 @@ class UserControllerTest {
 		String result[] = user.hotelSearch("Hveragerði");
 		assertArrayEquals(["hótel1","hótel2"], result);
 	}
+
 }
