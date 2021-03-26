@@ -1,18 +1,29 @@
 package application;
 
-public class DBManagerMock {
-	Hotel[] hotels = new Hotel[] {
-	new Hotel(0, "Grand Hotel", "Reykjavík"),
-	new Hotel(1, "Hotel Hilton", "Reykjavík"),
-	new Hotel(2, "Hotel Örk", "Hveragerði"),
-	new Hotel(3, "Hotel Keflavík", "Keflavík"),
-	new Hotel(4, "Icelandair Hotel", "Akureyri")
-	};
+import java.util.*;
+
+public class DBManagerMock {	
+	static Stack<Hotel> hotelStack = new Stack<Hotel>();
+	Stack<Hotel> helpStack = new Stack<Hotel>();
 	
-	Hotel getHotelList(String SearchString) {
-		for(int i = 0; i < hotels.length; i++) {
-			
-		}
-		return null;
+	
+	//returns list of all hotels as Stack
+	Stack<Hotel> getHotelList() {
+		return hotelStack;
 	}
+	
+	//finds and removes a hotel from the hotel stack
+	void removeHotel(Hotel hotel) {
+		for(int i = 0; i < hotelStack.size(); i++) {
+			if(hotelStack.pop() != hotel) helpStack.push(hotelStack.pop());
+			hotelStack.pop();
+		}
+		for(int i = 0; i < helpStack.size(); i++) {
+			hotelStack.push(helpStack.pop());
+		}
+	}
+	
+	
+	
+	
 }

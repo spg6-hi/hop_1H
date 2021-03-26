@@ -1,9 +1,11 @@
 package application;
 
+import java.util.Stack;
+
 public class UserController {
+	DBManagerMock dbManager = new DBManagerMock();
+	
 	Hotel hotelSearch(String SearchString){
-		DBManagerMock dbManager = new DBManagerMock();
-		
-		return dbManager.getHotelList(SearchString);
+		return null;
 	}
 }
