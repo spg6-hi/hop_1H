@@ -7,4 +7,11 @@ public class Hotel{
 		hotel.hotelName = name;
 		hotel.location = loc;
 	}
+	String getHotelName() {
+		return hotel.hotelName;
+	}
+	
+	String getLocation() {
+		return hotel.location;
+	}
 }
