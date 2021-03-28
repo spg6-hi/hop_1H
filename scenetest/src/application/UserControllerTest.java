@@ -30,7 +30,6 @@ class UserControllerTest {
 	void setUp() {
 		for(int i = 0; i< hotels.length;i++){
 			hotelStack.push(hotels[i]);
-			//System.out.println(hotels[i]);
 		}
 		user.dbManager = new DBManagerMock(hotelStack);
 	}
@@ -57,7 +56,6 @@ class UserControllerTest {
 	void SearchByNameTest() {
 		Stack<Hotel> expected = new Stack<Hotel>();
 		expected.push(new Hotel(0, "Grand Hotel", "Reykjavík"));
-		user.dbManager.printHotelList();
 		assertEquals(expected, user.searchByName("Grand Hotel"));
 	}
 	
@@ -72,10 +70,19 @@ class UserControllerTest {
 	@Test
 	void deleteHotelTest() {
 		Stack<Hotel> expected = new Stack<Hotel>();
+		expected.push(new Hotel(0, "Grand Hotel", "Reykjavík"));
+		expected.push(new Hotel(1, "Hotel Hilton", "Reykjavík"));
+		expected.push(new Hotel(2, "Hotel Örk", "Hveragerði"));
+		expected.push(new Hotel(3, "Hotel Keflavík", "Keflavík"));
+		user.dbManager.removeHotel(hotels[4]);
+		assertEquals(expected, user.dbManager.getHotelList());
 	}
 	
 	@Test
 	void addNewHotelTest() {
 		Stack<Hotel> expected = new Stack<Hotel>();
+		expected.push(new Hotel(4, "Icelandair Hotel", "Akureyri"));
+		user.dbManager.addHotel(4, "Icelandair Hotel", "Akureyri");
+		assertEquals(expected.pop(), user.dbManager.getHotelList().pop());
 	}
 }
