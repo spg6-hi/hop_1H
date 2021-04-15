@@ -50,7 +50,7 @@ public class UserSearchController implements Initializable {
 			Button button = new Button();
 			hotelEntry.add(hotelInfo, 0, 0);
 			hotelEntry.add(button, 1, 0);
-			resultVBox.setMargin(hotelEntry, new Insets(0, 0, 0, 8));
+			resultVBox.setMargin(hotelEntry, new Insets(0, 0, 0, 0));
 			resultVBox.getChildren().add(hotelEntry);
 		}
 	}
