@@ -1,17 +1,27 @@
 package application;
 
 public class Hotel{
-	HotelMock hotel = new HotelMock();
-	public Hotel(int id, String name, String loc) {
-		hotel.hotelId = id;
-		hotel.hotelName = name;
-		hotel.location = loc;
+	int hotelId;
+	String hotelName;
+	String hotelAddress;
+	String location;
+	public Hotel(int id, String name, String address, String loc) {
+		hotelId = id;
+		hotelName = name;
+		hotelAddress = address;
+		location = loc;
 	}
+	
+	
 	String getHotelName() {
-		return hotel.hotelName;
+		return hotelName;
+	}
+	
+	String getAddress() {
+		return hotelAddress;
 	}
 	
 	String getLocation() {
-		return hotel.location;
+		return location;
 	}
 }
