@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -48,9 +49,17 @@ public class UserSearchController implements Initializable {
 			hotelInfo.setItems(obsList);
 			hotelInfo.setMinHeight(70);
 			Button button = new Button();
+			button.setText("Book selected date");
+			ComboBox<String> dateSelector = new ComboBox<String>();
+			dateSelector.getItems().add("Select a date");
+			dateSelector.getItems().add("Choice 1");
+			dateSelector.getItems().add("Choice 2");
+			dateSelector.setValue("Select a date");
+			VBox bookingControl = new VBox();
+			bookingControl.getChildren().add(button);
+			bookingControl.getChildren().add(dateSelector);
 			hotelEntry.add(hotelInfo, 0, 0);
-			hotelEntry.add(button, 1, 0);
-			resultVBox.setMargin(hotelEntry, new Insets(0, 0, 0, 0));
+			hotelEntry.add(bookingControl, 1, 0);
 			resultVBox.getChildren().add(hotelEntry);
 		}
 	}
