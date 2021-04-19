@@ -58,11 +58,11 @@ public class DBManager {
 		return results;
 	}
 	
-	Stack<Room> getRooms(String hotelId) throws SQLException{
+	Stack<Room> getRooms(int hotelId) throws SQLException{
 		Stack<Room> results = new Stack<Room>();
 		Connection conn = connect();
 		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM `rooms` WHERE `hotelid` = ? AND `user` = null");
-		stmt.setString(1, hotelId);
+		stmt.setInt(1, hotelId);
 		ResultSet rs = stmt.executeQuery();
 		
 		while(rs.next())

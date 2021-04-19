@@ -2,7 +2,9 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -24,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 
 public class UserSearchController implements Initializable {
+	private DBManager dbManager;
 	private Stage stage;
 	//Do this to code with an object from the scene (variable = id)
 	@FXML
@@ -31,7 +34,7 @@ public class UserSearchController implements Initializable {
 	@FXML
 	private TextField locationTextField;
 	@FXML
-	private TextField availabilityTextField;
+	private TextField dateTextField;
 	@FXML
 	private AnchorPane resultAnchorPane;
 	@FXML
@@ -49,13 +52,50 @@ public class UserSearchController implements Initializable {
 		// Nothing to see here, move along.
 	}
 	
-	public void Search(ActionEvent event) {
+	public void Search(ActionEvent event) throws SQLException {
+		//We might want a separate java file for this to avoid bloating.
+		Stack<Hotel> hotelStack = dbManager.search(nameTextField.getText(), locationTextField.getText());
+		resultVBox.getChildren().clear();
+		while (!hotelStack.empty()) {
+			Hotel hotel = hotelStack.pop();
+			Stack<Room> roomStack = dbManager.getRooms(hotel.getId());
+			ObservableList<String> obsList = FXCollections.observableArrayList();
+			obsList.add(hotel.getHotelName());
+			obsList.add(hotel.getLocation());
+			GridPane hotelEntry = new GridPane();
+			ListView<String> hotelInfo = new ListView<String>();
+			Button button = new Button();
+			button.setText("Book selected date");
+			ComboBox<String> dateSelector = new ComboBox<String>();
+			dateSelector.getItems().add("Select a date");
+			dateSelector.setValue("Select a date");
+			String dates = "";
+			while (!roomStack.empty()) {
+				Room room = roomStack.pop();
+				if (dateTextField.getText().toString().equals(room.getDate())) {
+					dates += ", ";
+					dates += room.getDate();
+				}
+			}
+			obsList.add(dates);
+			hotelInfo.setItems(obsList);
+			hotelInfo.setMinHeight(70);
+			VBox bookingControl = new VBox();
+			bookingControl.getChildren().add(button);
+			bookingControl.getChildren().add(dateSelector);
+			hotelEntry.add(hotelInfo, 0, 0);
+			hotelEntry.add(bookingControl, 1, 0);
+			resultVBox.getChildren().add(hotelEntry);
+		}
+	}
+	
+	/*public void Search(ActionEvent event) {
 		//We might want a separate java file for this to avoid bloating.
 		resultVBox.getChildren().clear();
 		ObservableList<String> obsList = FXCollections.observableArrayList();
 		obsList.add(nameTextField.getText());
 		obsList.add(locationTextField.getText());
-		obsList.add(availabilityTextField.getText());
+		obsList.add(dateTextField.getText());
 		int i;
 		for (i = 0; i < 8; i++) {
 			GridPane hotelEntry = new GridPane();
@@ -76,13 +116,13 @@ public class UserSearchController implements Initializable {
 			hotelEntry.add(bookingControl, 1, 0);
 			resultVBox.getChildren().add(hotelEntry);
 		}
-	}
+	}*/
 	
 	public void ClearSearch(ActionEvent event) {
 		resultVBox.getChildren().clear();
 		nameTextField.setText("");
 		locationTextField.setText("");
-		availabilityTextField.setText("");
+		dateTextField.setText("");
 	}
 	
 	public void SwitchUser(ActionEvent event) {

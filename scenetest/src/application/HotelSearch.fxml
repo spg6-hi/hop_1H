@@ -42,7 +42,10 @@
                               <TextField fx:id="nameTextField" GridPane.columnIndex="1" />
                               <TextField fx:id="locationTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label alignment="CENTER_RIGHT" text="Date: " GridPane.rowIndex="2" />
-                              <TextField fx:id="availabilityTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="dateTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="DD/MM/YYYY" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Label text="testhotel{x}" GridPane.columnIndex="2" />
+                              <Label text="testlocation{x}" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                      </children>
