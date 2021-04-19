@@ -41,7 +41,7 @@
                               <Label alignment="CENTER_RIGHT" text="Location: " GridPane.rowIndex="1" />
                               <TextField fx:id="nameTextField" GridPane.columnIndex="1" />
                               <TextField fx:id="locationTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label alignment="CENTER_RIGHT" text="Availability: " GridPane.rowIndex="2" />
+                              <Label alignment="CENTER_RIGHT" text="Date: " GridPane.rowIndex="2" />
                               <TextField fx:id="availabilityTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
