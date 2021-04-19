@@ -19,7 +19,7 @@
    <center>
       <AnchorPane minWidth="250.0" prefHeight="600.0" prefWidth="250.0" BorderPane.alignment="CENTER">
          <children>
-            <SplitPane dividerPositions="0.32608695652173914" layoutX="149.0" layoutY="24.0" minWidth="250.0" orientation="VERTICAL" prefHeight="576.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.6">
+            <SplitPane dividerPositions="0.23759608665269044" layoutX="149.0" layoutY="24.0" minWidth="250.0" orientation="VERTICAL" prefHeight="576.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.6">
               <items>
                 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="182.0" prefWidth="798.0">
                      <children>
@@ -30,18 +30,15 @@
                               <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="75.39999389648438" minHeight="10.0" prefHeight="60.80000000000001" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="67.39999237060547" minHeight="35.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="NEVER" />
+                            <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="NEVER" />
+                              <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="NEVER" />
+                            <RowConstraints maxHeight="67.39999237060547" minHeight="35.0" prefHeight="35.0" valignment="TOP" vgrow="ALWAYS" />
                           </rowConstraints>
                            <children>
                               <Label alignment="CENTER_RIGHT" text="Name: " />
-                              <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#doSomething" text="Search" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#Search" text="Search" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                               <Label alignment="CENTER_RIGHT" text="Location: " GridPane.rowIndex="1" />
-                              <Label alignment="CENTER_RIGHT" text="Etc... " GridPane.rowIndex="3" />
-                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <TextField fx:id="nameTextField" GridPane.columnIndex="1" />
                               <TextField fx:id="locationTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label alignment="CENTER_RIGHT" text="Availability: " GridPane.rowIndex="2" />
@@ -68,21 +65,20 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="New search..." />
-                        <MenuItem mnemonicParsing="false" text="Save?" />
-                        <MenuItem mnemonicParsing="false" text="Load?" />
-                        <MenuItem mnemonicParsing="false" text="EXIT" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
+                    <MenuItem fx:id="menuNewSearch" mnemonicParsing="false" onAction="#ClearSearch" text="New search..." />
+                        <MenuItem mnemonicParsing="false" onAction="#CloseWindow" text="EXIT" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem mnemonicParsing="false" text="About" />
                         <MenuItem mnemonicParsing="false" text="Open help.txt" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="User">
+                  <items>
+                    <MenuItem fx:id="usernameMenuItem" mnemonicParsing="false" text="gvg8" />
+                        <MenuItem mnemonicParsing="false" onAction="#SwitchUser" text="Switch user..." />
                   </items>
                 </Menu>
               </menus>
