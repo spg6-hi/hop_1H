@@ -35,14 +35,14 @@ public class DBManager {
 		Stack<Hotel> results = new Stack<Hotel>();
 		Connection conn = connect();
 		String query = "SELECT * FROM `Hotels` WHERE ";
-        if(name != "null") query += "`name` = ? AND ";
-        if(location != "null") query += "`location` = ? AND ";
+        if(!name.equals("null")) query += "`name` = ? AND ";
+        if(!location.equals("null")) query += "`location` = ? AND ";
         if(query.substring(query.length() - 4, query.length()).equals("AND ")) query = query.substring(0, query.length() - 5);
 		PreparedStatement stmt = conn.prepareStatement(query);
 		
 		stmt.setString(1, name);
-		if(name == "null" && location != "null") stmt.setString(1, location);
-		if(name != "null" && location != "null") stmt.setString(2, location);
+		if(name.equals("null") && !location.equals("null")) stmt.setString(1, location);
+		if(!name.equals("null") && !location.equals("null")) stmt.setString(2, location);
 		
 		
 		ResultSet rs = stmt.executeQuery();
@@ -55,6 +55,10 @@ public class DBManager {
 						));
 	    }
 	    rs.close();
+	    System.out.println(results.isEmpty());
+	    System.out.println(query);
+	    System.out.println("name: " + name);
+	    System.out.println("location: " + location);
 		return results;
 	}
 	

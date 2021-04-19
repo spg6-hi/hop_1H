@@ -26,7 +26,8 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 
 public class UserSearchController implements Initializable {
-	private DBManager dbManager;
+	static DBManager dbManager = new DBManager();
+	UserController user = new UserController();
 	private Stage stage;
 	//Do this to code with an object from the scene (variable = id)
 	@FXML
@@ -54,9 +55,9 @@ public class UserSearchController implements Initializable {
 	
 	public void Search(ActionEvent event) throws SQLException {
 		//We might want a separate java file for this to avoid bloating.
-		Stack<Hotel> hotelStack = dbManager.search(nameTextField.getText(), locationTextField.getText());
+		Stack<Hotel> hotelStack = user.search(nameTextField.getText(), locationTextField.getText());
 		resultVBox.getChildren().clear();
-		while (!hotelStack.empty()) {
+		while (!hotelStack.isEmpty()) {
 			Hotel hotel = hotelStack.pop();
 			Stack<Room> roomStack = dbManager.getRooms(hotel.getId());
 			ObservableList<String> obsList = FXCollections.observableArrayList();
