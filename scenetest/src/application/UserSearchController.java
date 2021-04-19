@@ -73,7 +73,7 @@ public class UserSearchController implements Initializable {
 			String dates = "";
 			while (!roomStack.empty()) {
 				Room room = roomStack.pop();
-				if (dateTextField.getText().toString().equals(room.getDate())) {
+				if (dateTextField.getText().toString().equals(room.getDate()) && room.getGuest().isBlank() || dateTextField.getText().isBlank()) {
 					dates += ", ";
 					dates += room.getDate();
 				}

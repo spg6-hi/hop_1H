@@ -68,7 +68,6 @@ public class DBManager {
 		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM `rooms` WHERE `hotelid` = ? AND `user` = null");
 		stmt.setInt(1, hotelId);
 		ResultSet rs = stmt.executeQuery();
-		
 		while(rs.next())
 	    {
 			results.push(new Room(rs.getInt("hotelid"),
