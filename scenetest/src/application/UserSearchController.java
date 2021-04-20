@@ -70,8 +70,8 @@ public class UserSearchController implements Initializable {
 			roomSelector.getItems().add("Select a room");
 			roomSelector.setValue("Select a room");
 			ComboBox<String> dateSelector = new ComboBox<String>();
-			dateSelector.getItems().add("Select a date");
-			dateSelector.setValue("Select a date");
+			dateSelector.getItems().add("Select a room to see dates");
+			dateSelector.setValue("Select a room to see dates");
 			String rooms = "";
 			System.out.println(roomStack.isEmpty());
 			int stopper = 0;
@@ -81,6 +81,13 @@ public class UserSearchController implements Initializable {
 					rooms += room;
 					rooms += ", ";
 					roomSelector.getItems().add(room);
+					roomSelector.setOnAction(e -> {
+						try {
+							FetchDatesByRoom(roomSelector, hotel.getId(), dateSelector);
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+						});
 					stopper++;
 				}
 			}
@@ -128,6 +135,17 @@ public class UserSearchController implements Initializable {
 			resultVBox.getChildren().add(hotelEntry);
 		}
 	}*/
+	
+	public void FetchDatesByRoom(ComboBox<String> roomSelector, int hotelID, ComboBox<String> dateSelector) throws SQLException {
+		dateSelector.getItems().clear();
+		dateSelector.getItems().add("Select a date");
+		dateSelector.setValue("Select a date");
+		Stack<String> dateStack = dbManager.getDates(hotelID, roomSelector.getValue());
+		while (!dateStack.empty()) {
+			String date = dateStack.pop();
+			dateSelector.getItems().add(date);
+		}
+	}
 	
 	public void ClearSearch(ActionEvent event) {
 		resultVBox.getChildren().clear();
