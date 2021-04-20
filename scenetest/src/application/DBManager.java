@@ -55,10 +55,6 @@ public class DBManager {
 						));
 	    }
 	    rs.close();
-	    System.out.println(results.isEmpty());
-	    System.out.println(query);
-	    System.out.println("name: " + name);
-	    System.out.println("location: " + location);
 		return results;
 	}
 	
