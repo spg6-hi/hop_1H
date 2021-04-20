@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
@@ -38,6 +39,8 @@ public class UserSearchController implements Initializable {
 	private AnchorPane resultAnchorPane;
 	@FXML
 	private VBox resultVBox;
+	@FXML
+	private VBox bookingVBox;
 	@FXML
 	private MenuItem menuNewSearch;
 	@FXML
@@ -121,6 +124,28 @@ public class UserSearchController implements Initializable {
 			hotelEntry.add(bookingControl, 1, 0);
 			resultVBox.getChildren().add(hotelEntry);
 		}
+		GridPane bookingEntries = new GridPane();
+		Stack<Room> roomStack = dbManager.getBookings(usernameMenuItem.getText());
+		while (!roomStack.isEmpty()) {
+			Room booking = roomStack.pop();
+			ListView<String> bookingInfo = new ListView<String>();
+			ObservableList<String> obsList = FXCollections.observableArrayList();
+			obsList.add(booking.getHotelName());
+			obsList.add(booking.getDate());
+			bookingInfo.setItems(obsList);
+			Button cancelBooking = new Button();
+			cancelBooking.setText("Cancel");
+			cancelBooking.setOnAction(e -> {
+				CancelBooking(booking);
+			});
+			VBox bookingList = new VBox();
+			bookingList.getChildren().add(bookingInfo);
+			VBox bookingControl = new VBox();
+			bookingControl.getChildren().add(cancelBooking);
+			bookingEntries.add(bookingList, 0, 0);
+			bookingEntries.add(bookingControl, 1, 0);
+			bookingVBox.getChildren().add(bookingEntries);
+		}
 	}
 	
 	/*public void Search(ActionEvent event) {
@@ -184,6 +209,10 @@ public class UserSearchController implements Initializable {
 				roomSelector.getItems().add(roomStack.pop());
 			}
 		}
+	}
+	
+	public void CancelBooking(Room room) throws SQLException {
+		dbManager.removeBooking(room.getHotelId(), room.getDate(), room.getRoomType(), room.getGuest());
 	}
 	
 	public void ClearSearch(ActionEvent event) {
