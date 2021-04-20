@@ -221,6 +221,38 @@ public class UserSearchController implements Initializable {
 			while (!roomStack.empty()) {
 				roomSelector.getItems().add(roomStack.pop());
 			}
+			bookingVBox.getChildren().clear();
+			Label bookingLabel = new Label();
+			bookingLabel.setText("Your current bookings:");
+			bookingVBox.getChildren().add(bookingLabel);
+			GridPane bookingEntries = new GridPane();
+			Stack<Room> roomStack1 = dbManager.getBookings(usernameMenuItem.getText());
+			while (!roomStack.isEmpty()) {
+				Room booking = roomStack1.pop();
+				ListView<String> bookingInfo = new ListView<String>();
+				bookingInfo.setMinHeight(70);
+				ObservableList<String> obsList = FXCollections.observableArrayList();
+				obsList.add(booking.getHotelName());
+				obsList.add(booking.getDate());
+				bookingInfo.setItems(obsList);
+				Button cancelBooking = new Button();
+				cancelBooking.setText("Cancel");
+				cancelBooking.setOnAction(e -> {
+					try {
+						CancelBooking(booking);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				});
+				VBox bookingList = new VBox();
+				bookingList.getChildren().add(bookingInfo);
+				VBox bookingControl = new VBox();
+				bookingControl.getChildren().add(cancelBooking);
+				bookingEntries.add(bookingList, 0, 0);
+				bookingEntries.add(bookingControl, 1, 0);
+				bookingVBox.getChildren().add(bookingEntries);
+			}
 		}
 	}
 	
