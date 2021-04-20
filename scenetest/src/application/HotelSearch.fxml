@@ -54,12 +54,12 @@
                                       <items>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="100.0">
                                              <children>
-                                                <VBox fx:id="resultVBox" prefHeight="200.0" prefWidth="100.0" />
+                                                <VBox fx:id="resultVBox" prefWidth="100.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
                                              </children>
                                           </AnchorPane>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="100.0">
                                              <children>
-                                                <VBox fx:id="bookingVBox" prefHeight="200.0" prefWidth="100.0" />
+                                                <VBox fx:id="bookingVBox" prefWidth="100.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
                                              </children>
                                           </AnchorPane>
                                       </items>
