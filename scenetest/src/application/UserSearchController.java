@@ -57,112 +57,7 @@ public class UserSearchController implements Initializable {
 	}
 	
 	public void Search(ActionEvent event) throws SQLException {
-		//We might want a separate java file for this to avoid bloating
-		String textfieldName = nameTextField.getText();
-		if (textfieldName.isBlank()) {
-			textfieldName = "null";
-		}
-		String textfieldLocation = locationTextField.getText();
-		if (textfieldLocation.isBlank()) {
-			textfieldLocation = "null";
-		}
-		System.out.println(textfieldName);
-		System.out.println(textfieldLocation);
-		Stack<Hotel> hotelStack = dbManager.search(textfieldName, textfieldLocation);
-		Label hotelLabel = new Label();
-		Label bookingLabel = new Label();
-		hotelLabel.setText("Hotel results:");
-		bookingLabel.setText("Your current bookings:");
-		resultVBox.getChildren().clear();
-		resultVBox.getChildren().add(hotelLabel);
-		bookingVBox.getChildren().clear();
-		bookingVBox.getChildren().add(bookingLabel);
-		while (!hotelStack.isEmpty()) {
-			Hotel hotel = hotelStack.pop();
-			Stack<String> roomStack = dbManager.getRooms(hotel.getId());
-			ObservableList<String> obsList = FXCollections.observableArrayList();
-			obsList.add(hotel.getHotelName());
-			obsList.add(hotel.getLocation());
-			GridPane hotelEntry = new GridPane();
-			ListView<String> hotelInfo = new ListView<String>();
-			Button button = new Button();
-			button.setText("Book selected date");
-			ComboBox<String> roomSelector = new ComboBox<String>();
-			roomSelector.getItems().add("Select a room type");
-			roomSelector.setValue("Select a room type");
-			ComboBox<String> dateSelector = new ComboBox<String>();
-			dateSelector.getItems().add("Select a room to see dates");
-			dateSelector.setValue("Select a room to see dates");
-			button.setOnAction(e -> {
-				try {
-					BookARoom(hotel.getId(), dateSelector, roomSelector);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			});
-			String rooms = "";
-			System.out.println(roomStack.isEmpty());
-			int stopper = 0;
-			while (!roomStack.empty() && stopper != 6) {
-				String room = roomStack.pop();
-				rooms += room;
-				rooms += ", ";
-				roomSelector.getItems().add(room);
-				roomSelector.setOnAction(e -> {
-					try {
-						FetchDatesByRoom(roomSelector, hotel.getId(), dateSelector);
-					} catch (SQLException e1) {
-						e1.printStackTrace();
-					}
-					});
-				stopper++;
-			}
-			if (rooms.length() > 0) {
-                rooms = rooms.substring(0, rooms.length()-2);
-            } else {
-            	rooms = "No vacancy";
-            }
-			obsList.add(rooms);
-			hotelInfo.setItems(obsList);
-			hotelInfo.setMinHeight(70);
-			hotelInfo.setMaxWidth(200);
-			VBox bookingControl = new VBox();
-			bookingControl.getChildren().add(button);
-			bookingControl.getChildren().add(roomSelector);
-			bookingControl.getChildren().add(dateSelector);
-			hotelEntry.add(hotelInfo, 0, 0);
-			hotelEntry.add(bookingControl, 1, 0);
-			hotelEntry.setMaxHeight(70);
-			resultVBox.getChildren().add(hotelEntry);
-		}
-		GridPane bookingEntries = new GridPane();
-		Stack<Room> roomStack = dbManager.getBookings(usernameMenuItem.getText());
-		while (!roomStack.isEmpty()) {
-			Room booking = roomStack.pop();
-			ListView<String> bookingInfo = new ListView<String>();
-			ObservableList<String> obsList = FXCollections.observableArrayList();
-			obsList.add(booking.getHotelName());
-			obsList.add(booking.getDate());
-			bookingInfo.setItems(obsList);
-			bookingInfo.setMinHeight(70);
-			Button cancelBooking = new Button();
-			cancelBooking.setText("Cancel");
-			cancelBooking.setOnAction(e -> {
-				try {
-					CancelBooking(booking);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			});
-			VBox bookingControl = new VBox();
-			bookingControl.getChildren().add(cancelBooking);
-			bookingControl.setMinHeight(70);
-			bookingInfo.setMaxWidth(200);
-			bookingEntries.add(bookingInfo, 0, 0);
-			bookingEntries.add(bookingControl, 1, 0);
-			bookingEntries.setMaxHeight(70);
-			bookingVBox.getChildren().add(bookingEntries);
-		}
+		FetchSearch();
 	}
 	
 	public void FetchDatesByRoom(ComboBox<String> roomSelector, int hotelID, ComboBox<String> dateSelector) throws SQLException {
@@ -187,83 +82,118 @@ public class UserSearchController implements Initializable {
 				!roomSelector.getValue().equals("Select a room type") &&
 				!usernameMenuItem.getText().equals("")){
 			dbManager.bookRoom(hotelID, dateSelector.getValue(), roomSelector.getValue(), usernameMenuItem.getText());
-			Stack<String> roomStack = dbManager.getRooms(hotelID);
-			roomSelector.getItems().clear();
-			roomSelector.getItems().add("Select a room type");
-			roomSelector.setValue("Select a room type");
-			dateSelector.getItems().clear();
-			dateSelector.getItems().add("Select a room to see dates");
-			dateSelector.setValue("Select a room to see dates");
-			while (!roomStack.empty()) {
-				roomSelector.getItems().add(roomStack.pop());
-			}
-			bookingVBox.getChildren().clear();
-			Label bookingLabel = new Label();
-			bookingLabel.setText("Your current bookings:");
-			bookingVBox.getChildren().add(bookingLabel);
-			GridPane bookingEntries = new GridPane();
-			Stack<Room> roomStack1 = dbManager.getBookings(usernameMenuItem.getText());
-			while (!roomStack.isEmpty()) {
-				Room booking = roomStack1.pop();
-				ListView<String> bookingInfo = new ListView<String>();
-				bookingInfo.setMinHeight(70);
-				ObservableList<String> obsList = FXCollections.observableArrayList();
-				obsList.add(booking.getHotelName());
-				obsList.add(booking.getDate());
-				bookingInfo.setItems(obsList);
-				Button cancelBooking = new Button();
-				cancelBooking.setText("Cancel");
-				cancelBooking.setOnAction(e -> {
-					try {
-						CancelBooking(booking);
-					} catch (SQLException e1) {
-						e1.printStackTrace();
-					}
-				});
-				VBox bookingList = new VBox();
-				bookingList.getChildren().add(bookingInfo);
-				VBox bookingControl = new VBox();
-				bookingControl.getChildren().add(cancelBooking);
-				bookingEntries.add(bookingList, 0, 0);
-				bookingEntries.add(bookingControl, 1, 0);
-				bookingVBox.getChildren().add(bookingEntries);
-			}
+			FetchSearch();
 		}
 	}
 	
 	public void CancelBooking(Room room) throws SQLException {
 		dbManager.removeBooking(room.getHotelId(), room.getDate(), room.getRoomType(), room.getGuest());
-		bookingVBox.getChildren().clear();
-		Label bookingLabel = new Label();
-		bookingLabel.setText("Your current bookings:");
-		bookingVBox.getChildren().add(bookingLabel);
-		GridPane bookingEntries = new GridPane();
-		Stack<Room> roomStack = dbManager.getBookings(usernameMenuItem.getText());
-		while (!roomStack.isEmpty()) {
-			Room booking = roomStack.pop();
-			ListView<String> bookingInfo = new ListView<String>();
-			bookingInfo.setMinHeight(70);
-			ObservableList<String> obsList = FXCollections.observableArrayList();
-			obsList.add(booking.getHotelName());
-			obsList.add(booking.getDate());
-			bookingInfo.setItems(obsList);
-			Button cancelBooking = new Button();
-			cancelBooking.setText("Cancel");
-			cancelBooking.setOnAction(e -> {
-				try {
-					CancelBooking(booking);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
+		FetchSearch();
+	}
+	
+	public void FetchSearch() throws SQLException {
+		//We might want a separate java file for this to avoid bloating
+				String textfieldName = nameTextField.getText();
+				if (textfieldName.isBlank()) {
+					textfieldName = "null";
 				}
-			});
-			VBox bookingList = new VBox();
-			bookingList.getChildren().add(bookingInfo);
-			VBox bookingControl = new VBox();
-			bookingControl.getChildren().add(cancelBooking);
-			bookingEntries.add(bookingList, 0, 0);
-			bookingEntries.add(bookingControl, 1, 0);
-			bookingVBox.getChildren().add(bookingEntries);
-		}
+				String textfieldLocation = locationTextField.getText();
+				if (textfieldLocation.isBlank()) {
+					textfieldLocation = "null";
+				}
+				Stack<Hotel> hotelStack = dbManager.search(textfieldName, textfieldLocation);
+				Label hotelLabel = new Label();
+				Label bookingLabel = new Label();
+				hotelLabel.setText("Hotel results:");
+				bookingLabel.setText("Your current bookings:");
+				resultVBox.getChildren().clear();
+				resultVBox.getChildren().add(hotelLabel);
+				bookingVBox.getChildren().clear();
+				bookingVBox.getChildren().add(bookingLabel);
+				while (!hotelStack.isEmpty()) {
+					Hotel hotel = hotelStack.pop();
+					Stack<String> roomStack = dbManager.getRooms(hotel.getId());
+					ObservableList<String> obsList = FXCollections.observableArrayList();
+					obsList.add(hotel.getHotelName());
+					obsList.add(hotel.getLocation());
+					GridPane hotelEntry = new GridPane();
+					ListView<String> hotelInfo = new ListView<String>();
+					Button button = new Button();
+					button.setText("Book selected date");
+					ComboBox<String> roomSelector = new ComboBox<String>();
+					roomSelector.getItems().add("Select a room type");
+					roomSelector.setValue("Select a room type");
+					ComboBox<String> dateSelector = new ComboBox<String>();
+					dateSelector.getItems().add("Select a room to see dates");
+					dateSelector.setValue("Select a room to see dates");
+					button.setOnAction(e -> {
+						try {
+							BookARoom(hotel.getId(), dateSelector, roomSelector);
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+					});
+					String rooms = "";
+					int stopper = 0;
+					while (!roomStack.empty() && stopper != 6) {
+						String room = roomStack.pop();
+						rooms += room;
+						rooms += ", ";
+						roomSelector.getItems().add(room);
+						roomSelector.setOnAction(e -> {
+							try {
+								FetchDatesByRoom(roomSelector, hotel.getId(), dateSelector);
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+							});
+						stopper++;
+					}
+					if (rooms.length() > 0) {
+		                rooms = rooms.substring(0, rooms.length()-2);
+		            } else {
+		            	rooms = "No vacancy";
+		            }
+					obsList.add(rooms);
+					hotelInfo.setItems(obsList);
+					hotelInfo.setMinHeight(70);
+					hotelInfo.setMaxWidth(200);
+					VBox bookingControl = new VBox();
+					bookingControl.getChildren().add(button);
+					bookingControl.getChildren().add(roomSelector);
+					bookingControl.getChildren().add(dateSelector);
+					hotelEntry.add(hotelInfo, 0, 0);
+					hotelEntry.add(bookingControl, 1, 0);
+					hotelEntry.setMaxHeight(70);
+					resultVBox.getChildren().add(hotelEntry);
+				}
+				GridPane bookingEntries = new GridPane();
+				Stack<Room> roomStack = dbManager.getBookings(usernameMenuItem.getText());
+				while (!roomStack.isEmpty()) {
+					Room booking = roomStack.pop();
+					ListView<String> bookingInfo = new ListView<String>();
+					ObservableList<String> obsList = FXCollections.observableArrayList();
+					obsList.add(booking.getHotelName());
+					obsList.add(booking.getDate());
+					bookingInfo.setItems(obsList);
+					Button cancelBooking = new Button();
+					cancelBooking.setText("Cancel");
+					cancelBooking.setOnAction(e -> {
+						try {
+							CancelBooking(booking);
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+					});
+					VBox bookingControl = new VBox();
+					bookingControl.getChildren().add(cancelBooking);
+					bookingInfo.setMinHeight(70);
+					bookingInfo.setMaxWidth(200);
+					bookingEntries.add(bookingInfo, 0, 0);
+					bookingEntries.add(bookingControl, 1, 0);
+					bookingEntries.setMaxHeight(70);
+					bookingVBox.getChildren().add(bookingEntries);
+				}
 	}
 	
 	public void ClearSearch(ActionEvent event) {
