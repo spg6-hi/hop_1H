@@ -57,7 +57,7 @@ public class UserSearchController implements Initializable {
 		if (textfieldName.isBlank()) {
 			textfieldName = "null";
 		}
-		String textfieldLocation = nameTextField.getText();
+		String textfieldLocation = locationTextField.getText();
 		if (textfieldLocation.isBlank()) {
 			textfieldLocation = "null";
 		}
