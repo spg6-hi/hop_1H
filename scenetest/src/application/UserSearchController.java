@@ -153,12 +153,10 @@ public class UserSearchController implements Initializable {
 					e1.printStackTrace();
 				}
 			});
-			VBox bookingList = new VBox();
-			bookingList.getChildren().add(bookingInfo);
-			bookingList.setMinHeight(70);
 			VBox bookingControl = new VBox();
 			bookingControl.getChildren().add(cancelBooking);
-			bookingEntries.add(bookingList, 0, 0);
+			bookingControl.setMinHeight(70);
+			bookingEntries.add(bookingInfo, 0, 0);
 			bookingEntries.add(bookingControl, 1, 0);
 			bookingVBox.getChildren().add(bookingEntries);
 		}
