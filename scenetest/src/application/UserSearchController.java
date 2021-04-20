@@ -152,9 +152,7 @@ public class UserSearchController implements Initializable {
 	}
 	
 	public void BookARoom(int hotelID, ComboBox<String> dateSelector, ComboBox<String> roomSelector) throws SQLException {
-		Date date = new Date(Integer.parseInt(dateSelector.getValue().substring(0, 4)), Integer.parseInt(dateSelector.getValue().substring(5, 7)), Integer.parseInt(dateSelector.getValue().substring(8, dateSelector.getValue().length())));
-		System.out.println(date.getYear() + "-" + date.getDate() + "-" + date.getDay());
-		dbManager.bookRoom(hotelID, date, roomSelector.getValue(), usernameMenuItem.getText());
+		dbManager.bookRoom(hotelID, dateSelector.getValue(), roomSelector.getValue(), usernameMenuItem.getText());
 	}
 	
 	public void ClearSearch(ActionEvent event) {
