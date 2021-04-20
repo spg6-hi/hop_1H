@@ -40,9 +40,9 @@ public class UserSearchController implements Initializable {
 	@FXML
 	private AnchorPane resultAnchorPane;
 	@FXML
-	private StackPane resultVBox;
+	private VBox resultVBox;
 	@FXML
-	private StackPane bookingVBox;
+	private VBox bookingVBox;
 	@FXML
 	private MenuItem menuNewSearch;
 	@FXML
