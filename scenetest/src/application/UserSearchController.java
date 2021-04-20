@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -223,6 +224,7 @@ public class UserSearchController implements Initializable {
 				bookingControl.getChildren().add(cancelBooking);
 				bookingEntries.add(bookingList, 0, 0);
 				bookingEntries.add(bookingControl, 1, 0);
+				StackPane.setMargin(bookingList, new Insets(0,0,0,0));
 				bookingVBox.getChildren().add(bookingEntries);
 			}
 		}
