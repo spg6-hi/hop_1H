@@ -33,6 +33,7 @@ public class DBManager {
 	
 	Stack<Hotel> search(String name ,String location) throws SQLException{
 		Stack<Hotel> results = new Stack<Hotel>();
+		if(name.equals("null") && location.equals("null")) return getHotelList();
 		Connection conn = connect();
 		String query = "SELECT * FROM `Hotels` WHERE ";
         if(!name.equals("null")) query += "`name` = ? AND ";
@@ -43,7 +44,6 @@ public class DBManager {
 		stmt.setString(1, name);
 		if(name.equals("null") && !location.equals("null")) stmt.setString(1, location);
 		if(!name.equals("null") && !location.equals("null")) stmt.setString(2, location);
-		
 		
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next())
@@ -81,7 +81,7 @@ public class DBManager {
 	Stack<String> getRooms(int hotelId) throws SQLException{
 		Stack<String> results = new Stack<String>();
 		Connection conn = connect();
-		PreparedStatement stmt = conn.prepareStatement("SELECT DISTINCT `roomtype` FROM `rooms` WHERE `hotelid` = ? AND `user` = ''");
+		PreparedStatement stmt = conn.prepareStatement("SELECT DISTINCT `roomtype` FROM `rooms` WHERE `hotelid` = ? AND `user` = '' ORDER BY `roomtype`");
 		stmt.setInt(1, hotelId);
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next())
@@ -107,6 +107,26 @@ public class DBManager {
 		stmt.setString(3, bookDate);
 		stmt.setInt(2, bookRoom);
 		stmt.setString(1, user);
+		stmt.executeUpdate();
+	}
+	
+	
+	
+	void removeBooking(int hotelId, String date, String roomType, String user) throws SQLException {
+		Connection conn = connect();
+		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM `rooms` WHERE `hotelid` = ? AND `date` = ? AND `user` = ? AND `roomtype` = ?");
+		stmt.setInt(1, hotelId);
+		stmt.setString(2, date);
+		stmt.setString(3, user);
+		stmt.setString(4, roomType);
+		ResultSet rs = stmt.executeQuery();
+		rs.next();
+		String bookDate = rs.getDate("date").toString();
+		int bookRoom = rs.getInt("roomid");
+		rs.close();
+		stmt = conn.prepareStatement("UPDATE `rooms` SET `user` = '' WHERE `roomid` = ? AND `date` = ?");
+		stmt.setString(2, bookDate);
+		stmt.setInt(1, bookRoom);
 		stmt.executeUpdate();
 	}
 	
