@@ -38,7 +38,7 @@
                               <Label alignment="CENTER_RIGHT" text="Name: " />
                               <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#Search" text="Search" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                               <Label alignment="CENTER_RIGHT" text="Location: " GridPane.rowIndex="1" />
-                              <TextField fx:id="nameTextField" text="testhotel0" GridPane.columnIndex="1" />
+                              <TextField fx:id="nameTextField" GridPane.columnIndex="1" />
                               <TextField fx:id="locationTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
