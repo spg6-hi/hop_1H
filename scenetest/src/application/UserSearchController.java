@@ -131,6 +131,7 @@ public class UserSearchController implements Initializable {
 			bookingControl.getChildren().add(dateSelector);
 			hotelEntry.add(hotelInfo, 0, 0);
 			hotelEntry.add(bookingControl, 1, 0);
+			StackPane.setMargin(bookingControl, new Insets(0,0,0,0));
 			resultVBox.getChildren().add(hotelEntry);
 		}
 		GridPane bookingEntries = new GridPane();
@@ -214,7 +215,6 @@ public class UserSearchController implements Initializable {
 					try {
 						CancelBooking(booking);
 					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				});
@@ -224,7 +224,6 @@ public class UserSearchController implements Initializable {
 				bookingControl.getChildren().add(cancelBooking);
 				bookingEntries.add(bookingList, 0, 0);
 				bookingEntries.add(bookingControl, 1, 0);
-				StackPane.setMargin(bookingList, new Insets(0,0,0,0));
 				bookingVBox.getChildren().add(bookingEntries);
 			}
 		}
@@ -252,7 +251,6 @@ public class UserSearchController implements Initializable {
 				try {
 					CancelBooking(booking);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			});
