@@ -136,7 +136,12 @@ public class UserSearchController implements Initializable {
 			Button cancelBooking = new Button();
 			cancelBooking.setText("Cancel");
 			cancelBooking.setOnAction(e -> {
-				CancelBooking(booking);
+				try {
+					CancelBooking(booking);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			});
 			VBox bookingList = new VBox();
 			bookingList.getChildren().add(bookingInfo);

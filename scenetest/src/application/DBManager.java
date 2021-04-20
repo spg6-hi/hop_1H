@@ -130,6 +130,24 @@ public class DBManager {
 		stmt.executeUpdate();
 	}
 	
+	Stack<Room> getBookings(String user) throws SQLException{
+		Stack<Room> results = new Stack<Room>();
+		Connection conn = connect();
+		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM `rooms` INNER JOIN `hotels` WHERE `id` = `hotelid`AND `user` = ?");
+		stmt.setString(1, user);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			results.push(new Room(rs.getInt("hotelid"),
+								  rs.getString("name"),
+								  rs.getInt("roomid"),
+								  rs.getDate("date").toString(),
+								  rs.getString("user"),
+								  rs.getString("Roomtype")
+					    ));
+		}
+		return results;
+	}
+	
 	
 	Stack<Hotel> getHotelList() throws SQLException {
 		Stack<Hotel> results = new Stack<Hotel>();

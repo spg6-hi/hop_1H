@@ -2,12 +2,14 @@ package application;
 
 public class Room{
 	int HotelId;
+	String HotelName;
 	int RoomId;
 	String Date;
 	String guestName;
 	String roomType;
-	public Room(int hotelID, int RoomID, String date, String GuestName, String RoomType) {
+	public Room(int hotelID, String hotelName, int RoomID, String date, String GuestName, String RoomType) {
 		HotelId = hotelID;
+		HotelName = hotelName;
 		RoomId = RoomID;
 		Date = date;
 		guestName = GuestName;
@@ -32,5 +34,8 @@ public class Room{
 	
 	String getRoomType() {
 		return roomType;
+	}
+	String getHotelName() {
+		return HotelName;
 	}
 }
