@@ -75,7 +75,6 @@ public class UserSearchController implements Initializable {
 				try {
 					BookARoom(hotel.getId(), dateSelector, roomSelector);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			});
@@ -98,6 +97,8 @@ public class UserSearchController implements Initializable {
 			}
 			if (rooms.length() > 0) {
                 rooms = rooms.substring(0, rooms.length()-2);
+            } else {
+            	rooms = "No vacancy";
             }
 			obsList.add(rooms);
 			hotelInfo.setItems(obsList);
@@ -153,6 +154,12 @@ public class UserSearchController implements Initializable {
 	
 	public void BookARoom(int hotelID, ComboBox<String> dateSelector, ComboBox<String> roomSelector) throws SQLException {
 		dbManager.bookRoom(hotelID, dateSelector.getValue(), roomSelector.getValue(), usernameMenuItem.getText());
+		roomSelector.getItems().clear();
+		roomSelector.getItems().add("Select a room");
+		roomSelector.setValue("Select a room");
+		dateSelector.getItems().clear();
+		dateSelector.getItems().add("Select a room to see dates");
+		dateSelector.setValue("Select a room to see dates");
 	}
 	
 	public void ClearSearch(ActionEvent event) {
