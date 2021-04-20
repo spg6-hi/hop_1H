@@ -58,7 +58,7 @@ public class UserSearchController implements Initializable {
 		resultVBox.getChildren().clear();
 		while (!hotelStack.isEmpty()) {
 			Hotel hotel = hotelStack.pop();
-			Stack<Room> roomStack = dbManager.getRooms(hotel.getId());
+			Stack<String> roomStack = dbManager.getRooms(hotel.getId());
 			ObservableList<String> obsList = FXCollections.observableArrayList();
 			obsList.add(hotel.getHotelName());
 			obsList.add(hotel.getLocation());
@@ -66,6 +66,9 @@ public class UserSearchController implements Initializable {
 			ListView<String> hotelInfo = new ListView<String>();
 			Button button = new Button();
 			button.setText("Book selected date");
+			ComboBox<String> roomSelector = new ComboBox<String>();
+			roomSelector.getItems().add("Select a room");
+			roomSelector.setValue("Select a room");
 			ComboBox<String> dateSelector = new ComboBox<String>();
 			dateSelector.getItems().add("Select a date");
 			dateSelector.setValue("Select a date");
@@ -73,10 +76,11 @@ public class UserSearchController implements Initializable {
 			System.out.println(roomStack.isEmpty());
 			int stopper = 0;
 			while (!roomStack.empty() && stopper != 6) {
-				Room room = roomStack.pop();
-				if (dateTextField.getText().toString().equals(room.getDate()) && room.getGuest().isBlank() || dateTextField.getText().isBlank()) {
-					dates += room.getDate();
+				String room = roomStack.pop();
+				if (dateTextField.getText().toString().equals(room) || dateTextField.getText().isBlank()) {
+					dates += room;
 					dates += ", ";
+					roomSelector.getItems().add(room);
 					stopper++;
 				}
 			}
@@ -88,6 +92,7 @@ public class UserSearchController implements Initializable {
 			hotelInfo.setMinHeight(70);
 			VBox bookingControl = new VBox();
 			bookingControl.getChildren().add(button);
+			bookingControl.getChildren().add(roomSelector);
 			bookingControl.getChildren().add(dateSelector);
 			hotelEntry.add(hotelInfo, 0, 0);
 			hotelEntry.add(bookingControl, 1, 0);
