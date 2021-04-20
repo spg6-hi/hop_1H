@@ -34,8 +34,6 @@ public class UserSearchController implements Initializable {
 	@FXML
 	private TextField locationTextField;
 	@FXML
-	private TextField dateTextField;
-	@FXML
 	private AnchorPane resultAnchorPane;
 	@FXML
 	private VBox resultVBox;
@@ -77,19 +75,17 @@ public class UserSearchController implements Initializable {
 			int stopper = 0;
 			while (!roomStack.empty() && stopper != 6) {
 				String room = roomStack.pop();
-				if (dateTextField.getText().toString().equals(room) || dateTextField.getText().equals("null")) {
-					rooms += room;
-					rooms += ", ";
-					roomSelector.getItems().add(room);
-					roomSelector.setOnAction(e -> {
-						try {
-							FetchDatesByRoom(roomSelector, hotel.getId(), dateSelector);
-						} catch (SQLException e1) {
-							e1.printStackTrace();
-						}
-						});
-					stopper++;
-				}
+				rooms += room;
+				rooms += ", ";
+				roomSelector.getItems().add(room);
+				roomSelector.setOnAction(e -> {
+					try {
+						FetchDatesByRoom(roomSelector, hotel.getId(), dateSelector);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					});
+				stopper++;
 			}
 			if (rooms.length() > 0) {
                 rooms = rooms.substring(0, rooms.length()-2);
@@ -113,7 +109,6 @@ public class UserSearchController implements Initializable {
 		ObservableList<String> obsList = FXCollections.observableArrayList();
 		obsList.add(nameTextField.getText());
 		obsList.add(locationTextField.getText());
-		obsList.add(dateTextField.getText());
 		int i;
 		for (i = 0; i < 8; i++) {
 			GridPane hotelEntry = new GridPane();
@@ -151,7 +146,6 @@ public class UserSearchController implements Initializable {
 		resultVBox.getChildren().clear();
 		nameTextField.setText("");
 		locationTextField.setText("");
-		dateTextField.setText("");
 	}
 	
 	public void SwitchUser(ActionEvent event) {
