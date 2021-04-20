@@ -54,13 +54,15 @@ public class UserSearchController implements Initializable {
 	public void Search(ActionEvent event) throws SQLException {
 		//We might want a separate java file for this to avoid bloating.
 		String textfieldName = nameTextField.getText();
-		if (textfieldName.equals("")) {
+		if (textfieldName.isBlank()) {
 			textfieldName = "null";
 		}
 		String textfieldLocation = nameTextField.getText();
-		if (textfieldLocation.equals("")) {
+		if (textfieldLocation.isBlank()) {
 			textfieldLocation = "null";
 		}
+		System.out.println(textfieldName);
+		System.out.println(textfieldLocation);
 		Stack<Hotel> hotelStack = dbManager.search(textfieldName, textfieldLocation);
 		resultVBox.getChildren().clear();
 		while (!hotelStack.isEmpty()) {
