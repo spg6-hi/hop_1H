@@ -62,20 +62,30 @@ public class DBManager {
 		return results;
 	}
 	
-	Stack<Room> getRooms(int hotelId) throws SQLException{
-		Stack<Room> results = new Stack<Room>();
+	
+	Stack<String> getDates(int hotelId, String roomType) throws SQLException{
+		Stack<String> results = new Stack<String>();
 		Connection conn = connect();
-		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM `rooms` WHERE `hotelid` = ? AND `user` = ''");
+		PreparedStatement stmt = conn.prepareStatement("SELECT `date` FROM `rooms` WHERE `hotelid` = ? AND `roomtype` = ?");
+		stmt.setInt(1, hotelId);
+		stmt.setString(1, roomType);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next())
+	    {
+			results.push(rs.getDate("date").toString());
+	    }
+		return results;
+	}
+	
+	Stack<String> getRooms(int hotelId) throws SQLException{
+		Stack<String> results = new Stack<String>();
+		Connection conn = connect();
+		PreparedStatement stmt = conn.prepareStatement("SELECT `roomtype` FROM `rooms` WHERE `hotelid` = ? AND `user` = ''");
 		stmt.setInt(1, hotelId);
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next())
 	    {
-			results.push(new Room(rs.getInt("hotelid"),
-								  rs.getInt("roomid"),
-								  rs.getString("date"),
-								  rs.getString("user"),
-								  rs.getString("roomtype")
-						));
+			results.push(rs.getString("roomtype"));
 	    }
 		return results;
 	}

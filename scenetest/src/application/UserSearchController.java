@@ -72,22 +72,22 @@ public class UserSearchController implements Initializable {
 			ComboBox<String> dateSelector = new ComboBox<String>();
 			dateSelector.getItems().add("Select a date");
 			dateSelector.setValue("Select a date");
-			String dates = "";
+			String rooms = "";
 			System.out.println(roomStack.isEmpty());
 			int stopper = 0;
 			while (!roomStack.empty() && stopper != 6) {
 				String room = roomStack.pop();
-				if (dateTextField.getText().toString().equals(room) || dateTextField.getText().isBlank()) {
-					dates += room;
-					dates += ", ";
+				if (dateTextField.getText().toString().equals(room) || dateTextField.getText().equals("null")) {
+					rooms += room;
+					rooms += ", ";
 					roomSelector.getItems().add(room);
 					stopper++;
 				}
 			}
-			if (dates.length() > 0) {
-                dates = dates.substring(0, dates.length()-2);
+			if (rooms.length() > 0) {
+                rooms = rooms.substring(0, rooms.length()-2);
             }
-			obsList.add(dates);
+			obsList.add(rooms);
 			hotelInfo.setItems(obsList);
 			hotelInfo.setMinHeight(70);
 			VBox bookingControl = new VBox();
