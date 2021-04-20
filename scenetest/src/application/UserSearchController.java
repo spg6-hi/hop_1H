@@ -72,7 +72,12 @@ public class UserSearchController implements Initializable {
 			dateSelector.getItems().add("Select a room to see dates");
 			dateSelector.setValue("Select a room to see dates");
 			button.setOnAction(e -> {
-				BookARoom(hotel.getId(), dateSelector, roomSelector);
+				try {
+					BookARoom(hotel.getId(), dateSelector, roomSelector);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			});
 			String rooms = "";
 			System.out.println(roomStack.isEmpty());
