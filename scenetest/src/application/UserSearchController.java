@@ -159,6 +159,7 @@ public class UserSearchController implements Initializable {
 			bookingControl.setMinHeight(70);
 			bookingEntries.add(bookingInfo, 0, 0);
 			bookingEntries.add(bookingControl, 1, 0);
+			bookingEntries.setMaxHeight(70);
 			bookingVBox.getChildren().add(bookingEntries);
 		}
 	}
