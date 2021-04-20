@@ -197,7 +197,12 @@ public class UserSearchController implements Initializable {
 	}
 	
 	public void ClearSearch(ActionEvent event) {
+		ClearSearchResults();
+	}
+	
+	public void ClearSearchResults() {
 		resultVBox.getChildren().clear();
+		bookingVBox.getChildren().clear();
 		nameTextField.setText("");
 		locationTextField.setText("");
 	}
@@ -219,6 +224,7 @@ public class UserSearchController implements Initializable {
 	}
 	public void UserSwitched(ActionEvent event) {
 		usernameMenuItem.setText(usernameTextField.getText());
+		ClearSearchResults();
 		stage.close();
 	}
 	
