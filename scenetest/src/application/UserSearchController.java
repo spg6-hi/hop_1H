@@ -125,6 +125,7 @@ public class UserSearchController implements Initializable {
 			obsList.add(rooms);
 			hotelInfo.setItems(obsList);
 			hotelInfo.setMinHeight(70);
+			hotelInfo.setMaxWidth(200);
 			VBox bookingControl = new VBox();
 			bookingControl.getChildren().add(button);
 			bookingControl.getChildren().add(roomSelector);
@@ -132,7 +133,6 @@ public class UserSearchController implements Initializable {
 			hotelEntry.add(hotelInfo, 0, 0);
 			hotelEntry.add(bookingControl, 1, 0);
 			hotelEntry.setMaxHeight(70);
-			StackPane.setMargin(bookingControl, new Insets(0,0,0,0));
 			resultVBox.getChildren().add(hotelEntry);
 		}
 		GridPane bookingEntries = new GridPane();
@@ -157,6 +157,7 @@ public class UserSearchController implements Initializable {
 			VBox bookingControl = new VBox();
 			bookingControl.getChildren().add(cancelBooking);
 			bookingControl.setMinHeight(70);
+			bookingInfo.setMaxWidth(200);
 			bookingEntries.add(bookingInfo, 0, 0);
 			bookingEntries.add(bookingControl, 1, 0);
 			bookingEntries.setMaxHeight(70);
