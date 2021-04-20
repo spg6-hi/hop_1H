@@ -27,7 +27,6 @@ import javafx.fxml.FXMLLoader;
 
 public class UserSearchController implements Initializable {
 	static DBManager dbManager = new DBManager();
-	UserController user = new UserController();
 	private Stage stage;
 	//Do this to code with an object from the scene (variable = id)
 	@FXML
@@ -55,7 +54,7 @@ public class UserSearchController implements Initializable {
 	
 	public void Search(ActionEvent event) throws SQLException {
 		//We might want a separate java file for this to avoid bloating.
-		Stack<Hotel> hotelStack = user.search(nameTextField.getText(), locationTextField.getText());
+		Stack<Hotel> hotelStack = dbManager.search(nameTextField.getText(), locationTextField.getText());
 		resultVBox.getChildren().clear();
 		while (!hotelStack.isEmpty()) {
 			Hotel hotel = hotelStack.pop();
@@ -71,13 +70,19 @@ public class UserSearchController implements Initializable {
 			dateSelector.getItems().add("Select a date");
 			dateSelector.setValue("Select a date");
 			String dates = "";
-			while (!roomStack.empty()) {
+			System.out.println(roomStack.isEmpty());
+			int stopper = 0;
+			while (!roomStack.empty() && stopper != 6) {
 				Room room = roomStack.pop();
 				if (dateTextField.getText().toString().equals(room.getDate()) && room.getGuest().isBlank() || dateTextField.getText().isBlank()) {
-					dates += ", ";
 					dates += room.getDate();
+					dates += ", ";
+					stopper++;
 				}
 			}
+			if (dates.length() > 0) {
+                dates = dates.substring(0, dates.length()-2);
+            }
 			obsList.add(dates);
 			hotelInfo.setItems(obsList);
 			hotelInfo.setMinHeight(70);
