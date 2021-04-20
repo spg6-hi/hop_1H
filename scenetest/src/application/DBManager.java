@@ -81,7 +81,7 @@ public class DBManager {
 	Stack<String> getRooms(int hotelId) throws SQLException{
 		Stack<String> results = new Stack<String>();
 		Connection conn = connect();
-		PreparedStatement stmt = conn.prepareStatement("SELECT `roomtype` FROM `rooms` WHERE `hotelid` = ? AND `user` = ''");
+		PreparedStatement stmt = conn.prepareStatement("SELECT DISTINCT `roomtype` FROM `rooms` WHERE `hotelid` = ? AND `user` = ''");
 		stmt.setInt(1, hotelId);
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next())
@@ -92,20 +92,21 @@ public class DBManager {
 		return results;
 	}
 	
-	void bookRoom(int hotelId, Date date, String roomType, String user) throws SQLException {
+	void bookRoom(int hotelId, String date, String roomType, String user) throws SQLException {
 		Connection conn = connect();
 		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM `rooms` WHERE `hotelid` = ? AND `date` = ? AND `user` = '' AND `roomtype` = ?");
 		stmt.setInt(1, hotelId);
-		stmt.setDate(2, date);
-		stmt.setString(3, user);
-		stmt.setString(4, roomType);
+		stmt.setString(2, date);
+		stmt.setString(3, roomType);
 		ResultSet rs = stmt.executeQuery();
-		Date bookDate = rs.getDate("date");
+		rs.next();
+		String bookDate = rs.getDate("date").toString();
 		int bookRoom = rs.getInt("roomid");
 		rs.close();
 		stmt = conn.prepareStatement("UPDATE `rooms` SET `user` = ? WHERE `roomid` = ? AND `date` = ?");
-		stmt.setDate(2, bookDate);
-		stmt.setInt(1, bookRoom);
+		stmt.setString(3, bookDate);
+		stmt.setInt(2, bookRoom);
+		stmt.setString(1, user);
 		stmt.executeUpdate();
 	}
 	
