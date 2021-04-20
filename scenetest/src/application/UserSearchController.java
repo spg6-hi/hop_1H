@@ -21,6 +21,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 //SwitchUser imports for creating a new window
 import javafx.stage.Stage;
@@ -38,9 +39,9 @@ public class UserSearchController implements Initializable {
 	@FXML
 	private AnchorPane resultAnchorPane;
 	@FXML
-	private VBox resultVBox;
+	private StackPane resultVBox;
 	@FXML
-	private VBox bookingVBox;
+	private StackPane bookingVBox;
 	@FXML
 	private MenuItem menuNewSearch;
 	@FXML
@@ -147,7 +148,6 @@ public class UserSearchController implements Initializable {
 				try {
 					CancelBooking(booking);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			});
@@ -160,34 +160,6 @@ public class UserSearchController implements Initializable {
 			bookingVBox.getChildren().add(bookingEntries);
 		}
 	}
-	
-	/*public void Search(ActionEvent event) {
-		//We might want a separate java file for this to avoid bloating.
-		resultVBox.getChildren().clear();
-		ObservableList<String> obsList = FXCollections.observableArrayList();
-		obsList.add(nameTextField.getText());
-		obsList.add(locationTextField.getText());
-		int i;
-		for (i = 0; i < 8; i++) {
-			GridPane hotelEntry = new GridPane();
-			ListView<String> hotelInfo = new ListView<String>();
-			hotelInfo.setItems(obsList);
-			hotelInfo.setMinHeight(70);
-			Button button = new Button();
-			button.setText("Book selected date");
-			ComboBox<String> dateSelector = new ComboBox<String>();
-			dateSelector.getItems().add("Select a date");
-			dateSelector.getItems().add("Choice 1");
-			dateSelector.getItems().add("Choice 2");
-			dateSelector.setValue("Select a date");
-			VBox bookingControl = new VBox();
-			bookingControl.getChildren().add(button);
-			bookingControl.getChildren().add(dateSelector);
-			hotelEntry.add(hotelInfo, 0, 0);
-			hotelEntry.add(bookingControl, 1, 0);
-			resultVBox.getChildren().add(hotelEntry);
-		}
-	}*/
 	
 	public void FetchDatesByRoom(ComboBox<String> roomSelector, int hotelID, ComboBox<String> dateSelector) throws SQLException {
 		dateSelector.getItems().clear();
