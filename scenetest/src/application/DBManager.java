@@ -68,12 +68,13 @@ public class DBManager {
 		Connection conn = connect();
 		PreparedStatement stmt = conn.prepareStatement("SELECT `date` FROM `rooms` WHERE `hotelid` = ? AND `roomtype` = ?");
 		stmt.setInt(1, hotelId);
-		stmt.setString(1, roomType);
+		stmt.setString(2, roomType);
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next())
 	    {
 			results.push(rs.getDate("date").toString());
 	    }
+		rs.close();
 		return results;
 	}
 	
@@ -87,10 +88,26 @@ public class DBManager {
 	    {
 			results.push(rs.getString("roomtype"));
 	    }
+		rs.close();
 		return results;
 	}
 	
-	
+	void bookRoom(int hotelId, Date date, String roomType, String user) throws SQLException {
+		Connection conn = connect();
+		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM `rooms` WHERE `hotelid` = ? AND `date` = ? AND `user` = '' AND `roomtype` = ?");
+		stmt.setInt(1, hotelId);
+		stmt.setDate(2, date);
+		stmt.setString(3, user);
+		stmt.setString(4, roomType);
+		ResultSet rs = stmt.executeQuery();
+		Date bookDate = rs.getDate("date");
+		int bookRoom = rs.getInt("roomid");
+		rs.close();
+		stmt = conn.prepareStatement("UPDATE `rooms` SET `user` = ? WHERE `roomid` = ? AND `date` = ?");
+		stmt.setDate(2, bookDate);
+		stmt.setInt(1, bookRoom);
+		stmt.executeUpdate();
+	}
 	
 	
 	Stack<Hotel> getHotelList() throws SQLException {
