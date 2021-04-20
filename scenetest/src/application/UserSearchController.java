@@ -53,7 +53,15 @@ public class UserSearchController implements Initializable {
 	
 	public void Search(ActionEvent event) throws SQLException {
 		//We might want a separate java file for this to avoid bloating.
-		Stack<Hotel> hotelStack = dbManager.search(nameTextField.getText(), locationTextField.getText());
+		String textfieldName = nameTextField.getText();
+		if (textfieldName.equals("")) {
+			textfieldName = "null";
+		}
+		String textfieldLocation = nameTextField.getText();
+		if (textfieldLocation.equals("")) {
+			textfieldLocation = "null";
+		}
+		Stack<Hotel> hotelStack = dbManager.search(textfieldName, textfieldLocation);
 		resultVBox.getChildren().clear();
 		while (!hotelStack.isEmpty()) {
 			Hotel hotel = hotelStack.pop();
@@ -66,8 +74,8 @@ public class UserSearchController implements Initializable {
 			Button button = new Button();
 			button.setText("Book selected date");
 			ComboBox<String> roomSelector = new ComboBox<String>();
-			roomSelector.getItems().add("Select a room");
-			roomSelector.setValue("Select a room");
+			roomSelector.getItems().add("Select a room type");
+			roomSelector.setValue("Select a room type");
 			ComboBox<String> dateSelector = new ComboBox<String>();
 			dateSelector.getItems().add("Select a room to see dates");
 			dateSelector.setValue("Select a room to see dates");
@@ -153,13 +161,12 @@ public class UserSearchController implements Initializable {
 	}
 	
 	public void BookARoom(int hotelID, ComboBox<String> dateSelector, ComboBox<String> roomSelector) throws SQLException {
-		dbManager.bookRoom(hotelID, dateSelector.getValue(), roomSelector.getValue(), usernameMenuItem.getText());
-		roomSelector.getItems().clear();
-		roomSelector.getItems().add("Select a room");
-		roomSelector.setValue("Select a room");
-		dateSelector.getItems().clear();
-		dateSelector.getItems().add("Select a room to see dates");
-		dateSelector.setValue("Select a room to see dates");
+		if (	!dateSelector.getValue().equals("Select a room to see dates") && 
+				!dateSelector.getValue().equals("Select a date") &&
+				!roomSelector.getValue().equals("Select a room type") &&
+				!usernameMenuItem.getText().equals("")){
+			dbManager.bookRoom(hotelID, dateSelector.getValue(), roomSelector.getValue(), usernameMenuItem.getText());
+		}
 	}
 	
 	public void ClearSearch(ActionEvent event) {
