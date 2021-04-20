@@ -70,6 +70,9 @@ public class UserSearchController implements Initializable {
 			ComboBox<String> dateSelector = new ComboBox<String>();
 			dateSelector.getItems().add("Select a room to see dates");
 			dateSelector.setValue("Select a room to see dates");
+			button.setOnAction(e -> {
+				BookARoom(hotel.getId(), dateSelector, roomSelector);
+			});
 			String rooms = "";
 			System.out.println(roomStack.isEmpty());
 			int stopper = 0;
@@ -140,6 +143,10 @@ public class UserSearchController implements Initializable {
 			String date = dateStack.pop();
 			dateSelector.getItems().add(date);
 		}
+	}
+	
+	public void BookARoom(int hotelID, ComboBox<String> dateSelector, ComboBox<String> roomSelector) {
+		dbManager.bookRoom(hotelID, dateSelector.getValue(), roomSelector.getValue(), usernameMenuItem.getText());
 	}
 	
 	public void ClearSearch(ActionEvent event) {
