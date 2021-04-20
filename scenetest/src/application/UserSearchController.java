@@ -131,6 +131,7 @@ public class UserSearchController implements Initializable {
 			bookingControl.getChildren().add(dateSelector);
 			hotelEntry.add(hotelInfo, 0, 0);
 			hotelEntry.add(bookingControl, 1, 0);
+			hotelEntry.setMaxHeight(70);
 			StackPane.setMargin(bookingControl, new Insets(0,0,0,0));
 			resultVBox.getChildren().add(hotelEntry);
 		}
